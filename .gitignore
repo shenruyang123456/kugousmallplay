@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cod]
+.playwright-mcp/
+*.log
+/back-check.png
+/desktop-qa.png
+/kugo-mcp-v1.1/

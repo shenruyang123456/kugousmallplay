@@ -1,0 +1,1 @@
+{"main-window":{"identifier":"main-window","description":"允许主窗口拖动和关闭","local":true,"windows":["main"],"permissions":["core:window:allow-start-dragging","core:window:allow-close","core:event:allow-listen"]}}

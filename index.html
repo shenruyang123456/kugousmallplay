@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>听 · 酷狗音乐</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main class="shell">
+    <header class="masthead"><div class="brand"><span class="brand-mark">♪</span><span>听<span class="brand-dot">.</span></span></div><span class="brand-caption">你的音乐，正在这里</span><span class="connection" id="connection"><i></i>正在连接</span></header>
+    <section class="player" aria-label="当前播放">
+      <div class="art-area"><div class="art-halo"><div class="cover" id="cover"><img id="coverImage" alt="当前歌曲封面" hidden><div class="cover-fallback" id="coverFallback"><span>♪</span><small>YOUR MUSIC</small></div></div></div><div class="art-caption"><span>NOW PLAYING</span><span>01 / ♪</span></div></div>
+      <div class="details"><div class="song-content"><span class="eyebrow">此刻播放 <span></span> NOW PLAYING</span><h1 id="title">等待音乐</h1><p class="artist" id="artist">连接酷狗后显示歌曲信息</p><div class="lyric-section"><div class="lyric-heading">歌词</div><div class="lyrics" id="lyrics" aria-live="off"><div id="lyricCurrent">等待歌曲</div></div></div><div class="divider"></div><div class="controls"><button id="play" class="play-button" disabled aria-label="播放"><svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg><svg id="pauseIcon" viewBox="0 0 24 24" hidden><path d="M8 5h3v14H8zM15 5h3v14h-3z"/></svg></button><span class="play-state" id="playState">等待连接</span></div><p class="notice" id="notice" role="status"></p><button class="retry" id="retry" hidden>重新连接</button></div></div>
+    </section>
+    <footer class="footer"><span>你的私人音乐空间</span><span>POWERED BY KUGO MCP</span></footer>
+  </main>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+[package]
+name = "glass-desktop-widget"
+version = "0.1.0"
+description = "A small frosted glass desktop widget"
+edition = "2021"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+cc = "1"
+
+[dependencies]
+tauri = { version = "2", features = [] }
+
+
+serde_json = "1"
