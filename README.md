@@ -3,11 +3,7 @@
 KUGOUPLAY 是一款搭配 Windows 版酷狗音乐使用的桌面播放器。它将歌曲信息、歌词与播放控制放进一块可调整颜色的液态玻璃组件，并用旋转的 3D 黑胶唱片展示歌曲封面。
 
 ## 效果图
-
-| :---: | :---: |
-| ![青色玻璃播放器](docs/screenshots/glass-cyan.png) | ![琥珀色玻璃播放器](docs/screenshots/glass-amber.png) |
-| ![紫色玻璃播放器](docs/screenshots/glass-violet.png) | ![品红色玻璃播放器](docs/screenshots/glass-magenta.png) |
-
+![青色玻璃播放器](docs/screenshots/glass-cyan.png) 
 ## 功能
 
 - **桌面播放控制**：显示歌名、歌手、歌词、播放进度，支持播放／暂停、上一曲和下一曲。进度条目前仅用于显示。
