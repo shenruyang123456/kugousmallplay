@@ -65,13 +65,21 @@ fn ensure_bridge(bridge: &Bridge) -> Result<u16, String> {
     }
     if let Some(port) = process.port { return Ok(port); }
     if process.child.is_some() { return receive_endpoint(&mut process); }
-    let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).parent().and_then(|p| p.parent()).ok_or("无法定位项目目录")?;
-    let mcp = std::env::var_os("KUGO_MCP_HOME").map(std::path::PathBuf::from).unwrap_or_else(|| std::path::PathBuf::from(std::env::var_os("USERPROFILE").unwrap_or_default()).join(".codex/mcp/kugo-mcp"));
-    let python = mcp.join("venv/Scripts/python.exe");
-    let server = root.join("server.py");
-    if !python.is_file() || !server.is_file() { return Err("找不到本地服务或 kugo-mcp，请检查安装与项目目录".into()); }
-    let mut command = Command::new(python);
-    command.arg(server).arg("--port").arg("0").arg("--parent-pid").arg(std::process::id().to_string()).env("PYTHONIOENCODING", "utf-8").stdin(Stdio::null()).stdout(Stdio::piped()).stderr(Stdio::null());
+    let mut command = if let Some(executable) = std::env::var_os("KUGO_BUNDLED_BRIDGE") {
+        let path = std::path::PathBuf::from(executable);
+        if !path.is_file() { return Err("找不到程序内的本地服务".into()); }
+        Command::new(path)
+    } else {
+        let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).parent().and_then(|p| p.parent()).ok_or("无法定位项目目录")?;
+        let mcp = std::env::var_os("KUGO_MCP_HOME").map(std::path::PathBuf::from).unwrap_or_else(|| std::path::PathBuf::from(std::env::var_os("USERPROFILE").unwrap_or_default()).join(".codex/mcp/kugo-mcp"));
+        let python = mcp.join("venv/Scripts/python.exe");
+        let server = root.join("server.py");
+        if !python.is_file() || !server.is_file() { return Err("找不到本地服务或 kugo-mcp，请检查安装与项目目录".into()); }
+        let mut command = Command::new(python);
+        command.arg(server);
+        command
+    };
+    command.arg("--port").arg("0").arg("--parent-pid").arg(std::process::id().to_string()).env("PYTHONIOENCODING", "utf-8").stdin(Stdio::null()).stdout(Stdio::piped()).stderr(Stdio::null());
     #[cfg(windows)] { use std::os::windows::process::CommandExt; command.creation_flags(0x08000000); }
     let mut child = command.spawn().map_err(|e| format!("无法启动本地服务：{e}"))?;
     let stdout = child.stdout.take().ok_or("无法读取本地服务地址")?;

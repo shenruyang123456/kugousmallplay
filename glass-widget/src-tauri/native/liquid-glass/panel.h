@@ -41,7 +41,7 @@ public:
     // Place the panel right below the anchor window in z-order; topmost when
     // the anchor is invalid
     void AnchorBelow(HWND anchor);
-    void SetExcludeFromCapture(bool exclude);
+    bool SetExcludeFromCapture(bool exclude);
 
     // Fade: target opacity + duration (the worker thread advances in ~16ms steps)
     void BeginFade(float target, UINT fadeMs) {

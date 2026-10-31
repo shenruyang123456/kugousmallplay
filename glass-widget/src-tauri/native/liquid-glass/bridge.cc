@@ -1,4 +1,5 @@
 #include "session.h"
+#include "dda_exclusion.h"
 #include <algorithm>
 #include <cstdint>
 
@@ -17,8 +18,9 @@ static void update_corner_bands(int id, int width, int height) {
 
 extern "C" int glass_start(intptr_t window, int x, int y, int width, int height, float scale, CornerCallback callback) {
     HWND hwnd = reinterpret_cast<HWND>(window);
-    // Exclude both layers to avoid recursively capturing the widget itself.
-    if (!SetWindowDisplayAffinity(hwnd, WDA_EXCLUDEFROMCAPTURE)) return 0;
+    // Prevent the renderer from sampling its own UI, while leaving other
+    // screen capture methods available.
+    if (!SetExcludedFromDesktopDuplication(hwnd, true)) return 0;
     PanelConfig config;
     config.bounds = {x, y, x + width, y + height};
     config.dpr = scale;
@@ -31,7 +33,7 @@ extern "C" int glass_start(intptr_t window, int x, int y, int width, int height,
     int id = GlassSession::Instance().CreatePanel(config);
     if (!GlassSession::Instance().IsPanelReady(id)) {
         GlassSession::Instance().Shutdown();
-        SetWindowDisplayAffinity(hwnd, WDA_NONE);
+        SetExcludedFromDesktopDuplication(hwnd, false);
         return 0;
     }
     GlassSession::Instance().SetLumaCallback([callback](int, std::vector<LumaBandStats> bands) {

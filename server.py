@@ -652,7 +652,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     with LocalServer(('127.0.0.1', args.port), Handler) as httpd:
         PORT = httpd.server_address[1]
-        handler = RotatingFileHandler(ROOT / 'bridge.log', maxBytes=512 * 1024, backupCount=1, encoding='utf-8')
+        handler = RotatingFileHandler(Path(os.environ.get('KUGO_BRIDGE_LOG', str(ROOT / 'bridge.log'))), maxBytes=512 * 1024, backupCount=1, encoding='utf-8')
         handler.setFormatter(logging.Formatter('%(asctime)s %(levelname)s %(message)s'))
         log.addHandler(handler)
         log.setLevel(logging.INFO)

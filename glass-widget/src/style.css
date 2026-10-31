@@ -82,3 +82,37 @@ body { font-family: "Microsoft YaHei UI", sans-serif; user-select: none; -webkit
 .track-toggle:disabled { opacity:.45; cursor:default; }
 .track-toggle:not(:disabled):hover { background:rgba(255,255,255,.23); }
 .track-toggle:focus-visible { outline:2px solid #f5eee8; outline-offset:2px; }
+:root {
+  --title-paint: #f5eee8;
+  --artist-paint: rgba(245, 238, 232, .66);
+  --lyric-paint: linear-gradient(to right, #e8bb50, #fff);
+}
+@supports (-webkit-background-clip: text) or (background-clip: text) {
+  .song-title, .song-artist, .lyric {
+    background: var(--text-paint);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .song-title { --text-paint: var(--title-paint); }
+  .song-artist { --text-paint: var(--artist-paint); }
+  .lyric { --text-paint: var(--lyric-paint); }
+}
+.color-panel[hidden] { display: none; }
+.glass.editing > :not(.color-panel) { display: none; }
+.glass.editing { cursor: default; }
+.color-panel { position: absolute; inset: 0; padding: 23px 24px 19px; color: #f5eee8; cursor: default; }
+.color-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 15px; }
+.color-header h1 { margin: 0; font-size: 16px; line-height: 1.3; letter-spacing: .04em; }
+.color-header p { margin: 4px 0 0; color: rgba(232, 232, 235, .55); font-size: 10px; }
+.color-panel button { font: inherit; color: inherit; cursor: pointer; }
+#color-done, #color-reset { border: 0; padding: 3px 0; background: transparent; color: #e8ce9a; font-size: 11px; }
+.color-rows { border-top: 1px solid rgba(255, 255, 255, .14); }
+.color-row { height: 39px; display: flex; align-items: center; gap: 9px; border-bottom: 1px solid rgba(255, 255, 255, .09); font-size: 12px; }
+.color-row > span { flex: 1; }
+.swatch { position: relative; display: block; width: 26px; height: 26px; border: 1px solid rgba(255,255,255,.35); border-radius: 50%; overflow: hidden; cursor: pointer; background: var(--swatch); }
+.swatch input { position: absolute; inset: -5px; width: 36px; height: 36px; opacity: 0; cursor: pointer; }
+.gradient-toggle, .transparent-option { border: 1px solid rgba(255, 255, 255, .18); border-radius: 12px; padding: 4px 8px; background: rgba(255,255,255,.05); color: rgba(245,238,232,.65) !important; font-size: 10px !important; }
+.gradient-toggle[aria-pressed="true"], .transparent-option[aria-pressed="true"] { color: #f4ddac !important; border-color: rgba(232, 190, 105, .65); background: rgba(232,190,105,.13); }
+.color-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 12px; color: rgba(232,232,235,.5); font-size: 10px; }
+.color-panel button:focus-visible, .swatch:focus-within, .cover:focus-visible { outline: 2px solid #f4ddac; outline-offset: 2px; }

@@ -1,4 +1,5 @@
 #include "panel.h"
+#include "dda_exclusion.h"
 
 #include <dxgi1_3.h>
 
@@ -55,7 +56,7 @@ HRESULT GlassPanel::Create(ID3D11Device* device, const RECT& bounds, const Glass
         nullptr, nullptr, GetModuleHandleW(nullptr), nullptr);
     if (!hwnd_) return HRESULT_FROM_WIN32(GetLastError());
 
-    if (excludeFromCapture) SetExcludeFromCapture(true);
+    if (excludeFromCapture && !SetExcludeFromCapture(true)) return E_FAIL;
 
     ComPtr<IDXGIDevice> dxgiDevice;
     HRESULT hr = device_->QueryInterface(IID_PPV_ARGS(&dxgiDevice));
@@ -163,9 +164,8 @@ void GlassPanel::AnchorBelow(HWND anchor) {
     }
 }
 
-void GlassPanel::SetExcludeFromCapture(bool exclude) {
-    if (!hwnd_) return;
-    SetWindowDisplayAffinity(hwnd_, exclude ? WDA_EXCLUDEFROMCAPTURE : WDA_NONE);
+bool GlassPanel::SetExcludeFromCapture(bool exclude) {
+    return hwnd_ && SetExcludedFromDesktopDuplication(hwnd_, exclude);
 }
 
 bool GlassPanel::FadeStep() {

@@ -26,7 +26,7 @@ public:
     // Wait for the next frame; S_OK = frame available (must ReleaseFrame when
     // done), S_FALSE = timeout, DXGI_ERROR_ACCESS_LOST etc. = rebuild session.
     // selfRects (virtual-desktop coords): the caller's own panel window rects.
-    // After a WDA_EXCLUDEFROMCAPTURE-excluded panel Presents, DWM still
+    // After a Desktop Duplication-excluded panel Presents, DWM may still
     // reports the panel rect as dirty even though the captured content did not
     // change. Dirty rects nearly equal to a self rect are dropped — otherwise
     // "repaint → dirty → repaint" becomes a self-sustained loop.

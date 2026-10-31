@@ -5,3 +5,8 @@ __pycache__/
 /back-check.png
 /desktop-qa.png
 /kugo-mcp-v1.1/
+/packaging/build/
+/packaging/work-*/
+/packaging/*.spec
+/packaging/*.log
+/dist/

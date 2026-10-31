@@ -228,12 +228,14 @@ new ResizeObserver(resize).observe(container);
 let pointer = null;
 container.addEventListener('pointerdown', event => {
   if (event.button !== 0) return;
-  pointer = { id: event.pointerId, x: event.clientX, y: event.clientY };
+  pointer = { id: event.pointerId, x: event.clientX, y: event.clientY, startX: event.clientX, startY: event.clientY, moved: false };
   container.setPointerCapture(event.pointerId);
   container.classList.add('rotating');
 });
 container.addEventListener('pointermove', event => {
   if (!pointer || pointer.id !== event.pointerId) return;
+  if (Math.hypot(event.clientX - pointer.startX, event.clientY - pointer.startY) > 4) pointer.moved = true;
+  if (!pointer.moved) return;
   const dx = event.clientX - pointer.x;
   const dy = event.clientY - pointer.y;
   pointer.x = event.clientX;
@@ -246,13 +248,18 @@ container.addEventListener('pointermove', event => {
 });
 function endPointer(event) {
   if (pointer && pointer.id === event.pointerId) {
+    const clicked = event.type === 'pointerup' && !pointer.moved;
     pointer = null;
     container.classList.remove('rotating');
+    if (clicked) window.dispatchEvent(new Event('open-color-panel')); 
   }
 }
 container.addEventListener('pointerup', endPointer);
 container.addEventListener('pointercancel', endPointer);
 container.addEventListener('lostpointercapture', endPointer);
+container.addEventListener('keydown', event => {
+  if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); window.dispatchEvent(new Event('open-color-panel')); }
+});
 
 let generation = 0;
 let currentTexture = null;
